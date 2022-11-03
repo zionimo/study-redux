@@ -23,7 +23,7 @@ const CounterBox = () => {
           // dipatch를 통해 {type: "액션"}을 전달해서 사용
           // >>> counter의 리듀서 함수로 가서 같은 타입을 찾은 후 실행
           // >>> 객체값을 직접입력할 경우 오타 및 실수가 있을수 있어
-          //     값을 변경하지 않고 사용하기 위해 counter에서 가져와서 사용
+          // 값을 변경하지 않고 사용하기 위해 counter에서 가져와서 사용
           dispatch(increase());
         }}
       >
@@ -37,6 +37,17 @@ const CounterBox = () => {
       >
         감소
       </button>
+
+      {/* thunk를 이용하여 비동기로 작성 */}
+      <button
+        onClick={() => {
+          dispatch(increaseAsync());
+        }}
+      >
+        1초 뒤 증가
+      </button>
+      {/* thunk를 이용하여 2초 뒤 1감소하는 내용 작성 */}
+      {/* counter에 작성 후 CounterBox에 버튼 추가 */}
 
       {/** changeNum값을 바꿀 input */}
       <p>{changeNum}</p>
