@@ -1,12 +1,55 @@
-// 작성한 리덕스 모듈을 하나로 묶어서 사용
-import { combineReducers } from "redux";
+// useReducer의 형식과 유사(초기값, 리듀서 함수)
+// 초기값
+const initalState = {
+  number: 0,
+  changeNum: 1,
+};
 
-// 작성한 리덕스 모듈을 가져옴
-import counter from "./counter";
-import memo from "./memo";
-import news from "./news";
+// dispatch에 들어갈 {type:"액션"} 객체를 함수로 만들어서 내보내줌
+export const increase = () => ({ type: "increase" }); // 리턴값 객체
+export const decrease = () => ({ type: "decrease" });
+// 화살표함수도 동일하게 매개변수의 값을 받아올 수 있다
+export const change = (value) => ({ type: "change", payload: value });
 
-// 작성한 리덕스를 객체로 묶어서 내보냄
-const rootReducer = combineReducers({ counter, memo, news });
+/**
+ * thunk를 사용하여 비동기로 실행하는 액션함수를 만들수 있다.
+ * thunk의 형식을 사용했기 때문에, 바로 dispatch를 사용하는게 아니라
+ * 나중에 추가해서 사용할 수 있다
+ * thunk 사용형태 : export const 함수이름 = () => (dispatch) => {}
+ */
+export const increaseAsync = () => (dispatch) => {
+  // dispatch를 실행하기전에 진행할 내용 작성
+  // dispatch를 통해서 액션실행
+  // : 액션은 매개변수로 들오고지 않았기때문에 객체로 직접입력해주거나
+  //   이미 만들어둔 액션함수를 사용해서 실행
 
-export default rootReducer;
+  // 위에 미리 작성한 액션함수를 사용해서 전달
+  setTimeout(() => {
+    dispatch(increase());
+  }, 1000);
+};
+/** Thunk를 사용해서 비동기 함수인 setTimer 사용 */
+export const decreaseAsync = () => (dispatch) => {
+  // 액션값을 객체로 전달
+  setTimeout(() => {
+    dispatch({ type: "decrease" });
+  }, 2000);
+};
+
+// 리듀서 함수
+function counter(state = initalState, action) {
+  switch (action.type) {
+    case "increase":
+      const num = parseInt(state.changeNum);
+      console.log(num);
+      return { ...state, number: state.number + num };
+    case "decrease":
+      return { ...state, number: state.number - state.changeNum };
+    case "change":
+      return { ...state, changeNum: action.payload };
+    default:
+      return state;
+  }
+}
+
+export default counter;
