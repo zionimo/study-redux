@@ -1,5 +1,5 @@
 // 초기 state선언
-// API로 값을 가져오는 경우에 데이터를 가져오는 속도가 느릴수 있으므로 loading을 작석
+// API로 값을 가져오는 경우에 데이터를 가져오는 속도가 느릴수 있으므로 loading을 작성
 const initalState = {
   loading: false,
   news: null,
